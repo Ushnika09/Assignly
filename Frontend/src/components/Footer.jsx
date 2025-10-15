@@ -1,12 +1,9 @@
 import React from 'react'
-import { FiLogIn } from "react-icons/fi";
-import { Link } from 'react-router-dom';
 
-function Nav() {
+const Footer = () => {
   return (
-    <main className='flex justify-between px-7 py-3 shadow bg-white/90 fixed w-full'>
-
-      {/* logo */}
+    <div className='px-7 py-3 flex justify-between items-center shadow shadow-neutral-600'>
+        {/* logo */}
       <div className='flex gap-2 items-center'>
         <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-600 to-emerald-500 shadow-sm flex items-center justify-center text-white font-bold text-xl">A</div>
       <div className="leading-tight">
@@ -14,14 +11,9 @@ function Nav() {
         <div className="text-[11px] text-gray-800/60">Manage agents. Assign tasks.</div>
       </div>
       </div>
-
-      {/* CTA */}
-      <Link to={"/login"} className='px-5 py-2 bg-blue-700 text-white font-medium rounded-xl flex gap-2 shrink-0 items-center hover:bg-blue-800/90 cursor-pointer'>
-        Login
-        <FiLogIn/>
-      </Link>
-    </main>
+      <h1>© 2025 Assignly. All rights reserved.</h1>
+    </div>
   )
 }
 
-export default Nav
+export default Footer
