@@ -1,29 +1,35 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FiLogIn, FiLogOut, FiMenu } from "react-icons/fi";
 
 function Nav({ collapsed, toggleCollapse, user, logout }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
+  // Check if current route is home page
+  const isHomePage = location.pathname === "/";
+
   return (
     <main className="flex justify-between px-7 py-3 shadow bg-white/90 fixed w-full z-50">
       <div className="flex items-center gap-7">
-        {/* Collapse Button */}
-        <div className="flex justify-end p-3">
-          <button
-            onClick={toggleCollapse}
-            className="text-gray-700 hover:text-gray-900"
-          >
-            <FiMenu size={20} />
-          </button>
-        </div>
+        {/* Collapse Button - Hidden on home page */}
+        {!isHomePage && (
+          <div className="flex justify-end p-3">
+            <button
+              onClick={toggleCollapse}
+              className="text-gray-700 hover:text-gray-900"
+            >
+              <FiMenu size={20} />
+            </button>
+          </div>
+        )}
 
-        {/* Logo (unchanged) */}
+        {/* Logo  */}
         <div className="flex gap-2 items-center">
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-600 to-emerald-500 shadow-sm flex items-center justify-center text-white font-bold text-xl">
             A
