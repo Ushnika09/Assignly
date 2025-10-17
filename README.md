@@ -3,6 +3,9 @@
 
 Assignly is a full-stack application designed to streamline the process of assigning tasks to agents. It allows users to upload CSV or Excel files containing task details, which are then distributed among available agents. The application provides an intuitive dashboard for monitoring task assignments and agent performance.
 
+🎥 **Demo Video:**  
+Watch the walkthrough here → [Loom Demo](https://www.loom.com/share/4bb092da446e4b61b6b3354397da7041?sid=eac60737-088f-4fb7-b53e-9c3cd1cef7e4)
+
 ## Project Structure
 
 ```
