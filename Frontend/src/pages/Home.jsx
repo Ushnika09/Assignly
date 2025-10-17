@@ -128,8 +128,8 @@ export default function Home() {
         )}
 
         {/* Agents Table  */}
-        {/* Agents Table - Show ALL agents, not just ones with tasks */}
-<Card className="p-6">
+
+{hasDistributedTasks && <Card className="p-6">
   <h3 className="text-lg font-semibold mb-4 text-indigo-600">Agents & Tasks</h3>
   <div className="overflow-x-auto">
     <table className="min-w-full border-collapse text-sm">
@@ -193,7 +193,7 @@ export default function Home() {
       </tbody>
     </table>
   </div>
-</Card>
+</Card>}
 
         {/* Show message when no tasks are distributed */}
         {!loading && !hasDistributedTasks && stats.totalAgents > 0 && (
