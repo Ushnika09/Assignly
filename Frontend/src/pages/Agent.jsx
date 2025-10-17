@@ -1,8 +1,9 @@
-import { useState, useMemo, useContext, useEffect } from "react";
+import { useState, useMemo, useContext } from "react";
 import { AgentsContext } from "../context/AgentContext";
 
 export default function Agents() {
   const { agents, loading, addAgent, deleteAgent } = useContext(AgentsContext);
+
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [newAgent, setNewAgent] = useState({
@@ -217,7 +218,15 @@ export default function Agents() {
                   </td>
                   <td className="px-4 py-2">{a.email}</td>
                   <td className="px-4 py-2">{a.mobile}</td>
-                  <td className="px-4 py-2 text-right font-semibold">{a.tasksAssigned || 0}</td>
+                  <td className="px-4 py-2 text-right">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      a.tasksAssigned > 0 
+                        ? 'bg-blue-100 text-blue-800' 
+                        : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {a.tasksAssigned || 0}
+                    </span>
+                  </td>
                   <td className="px-4 py-2 text-right">
                     <button 
                       className="text-red-500 hover:text-red-700" 

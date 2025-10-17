@@ -128,49 +128,72 @@ export default function Home() {
         )}
 
         {/* Agents Table  */}
-        {hasDistributedTasks && (
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Agents & Tasks</h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full border-collapse text-sm">
-                <thead className="bg-gray-100 sticky top-0">
-                  <tr>
-                    <th className="border px-3 py-1 text-left">Name</th>
-                    <th className="border px-3 py-1 text-left">Email</th>
-                    <th className="border px-3 py-1 text-left">Mobile</th>
-                    <th className="border px-3 py-1 text-left">Tasks Assigned</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <tr>
-                      <td colSpan={4} className="text-center py-4">
-                        Loading...
-                      </td>
-                    </tr>
-                  ) : agents.filter(agent => agent.tasksAssigned > 0).length === 0 ? (
-                    <tr>
-                      <td colSpan={4} className="text-center py-4">
-                        No agents with tasks found
-                      </td>
-                    </tr>
-                  ) : (
-                    agents
-                      .filter(agent => agent.tasksAssigned > 0)
-                      .map((agent) => (
-                        <tr key={agent._id} className="hover:bg-gray-50">
-                          <td className="border px-3 py-1">{agent.name}</td>
-                          <td className="border px-3 py-1">{agent.email}</td>
-                          <td className="border px-3 py-1">{agent.mobile}</td>
-                          <td className="border px-3 py-1">{agent.tasksAssigned}</td>
-                        </tr>
-                      ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </Card>
+        {/* Agents Table - Show ALL agents, not just ones with tasks */}
+<Card className="p-6">
+  <h3 className="text-lg font-semibold mb-4 text-indigo-600">Agents & Tasks</h3>
+  <div className="overflow-x-auto">
+    <table className="min-w-full border-collapse text-sm">
+      <thead className="bg-gray-100 sticky top-0">
+        <tr>
+          <th className="border px-3 py-1 text-left">Name</th>
+          <th className="border px-3 py-1 text-left">Email</th>
+          <th className="border px-3 py-1 text-left">Mobile</th>
+          <th className="border px-3 py-1 text-left">Current Tasks</th>
+          <th className="border px-3 py-1 text-left">Would Get</th>
+        </tr>
+      </thead>
+      <tbody>
+        {loading ? (
+          <tr>
+            <td colSpan={5} className="text-center py-4">
+              Loading...
+            </td>
+          </tr>
+        ) : agents.length === 0 ? (
+          <tr>
+            <td colSpan={5} className="text-center py-4">
+              No agents found
+            </td>
+          </tr>
+        ) : (
+          agents.map((agent) => {
+            // Calculate how many tasks this agent would get in next distribution
+            const tasksPerAgent = Math.floor(stats.tasks / stats.totalAgents);
+            const remainder = stats.tasks % stats.totalAgents;
+            const agentIndex = agents.findIndex(a => a._id === agent._id);
+            const wouldGetTasks = agentIndex < remainder ? tasksPerAgent + 1 : tasksPerAgent;
+            
+            return (
+              <tr key={agent._id} className="hover:bg-gray-50">
+                <td className="border px-3 py-1">{agent.name}</td>
+                <td className="border px-3 py-1">{agent.email}</td>
+                <td className="border px-3 py-1">{agent.mobile}</td>
+                <td className="border px-3 py-1 text-center">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    agent.tasksAssigned > 0 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {agent.tasksAssigned || 0}
+                  </span>
+                </td>
+                <td className="border px-3 py-1 text-center">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    wouldGetTasks > 0 
+                      ? 'bg-blue-100 text-blue-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {wouldGetTasks}
+                  </span>
+                </td>
+              </tr>
+            );
+          })
         )}
+      </tbody>
+    </table>
+  </div>
+</Card>
 
         {/* Show message when no tasks are distributed */}
         {!loading && !hasDistributedTasks && stats.totalAgents > 0 && (
